@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ParseFileController;
+use App\Http\Controllers\RowController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,9 +22,11 @@ Route::get('/', function () {
 });
 
 Auth::routes();
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::post('/parse-file', [ParseFileController::class, 'handle']);
+    Route::get('/get-rows', [RowController::class, 'getRowsList']);
+});
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
